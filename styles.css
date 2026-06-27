@@ -1,0 +1,632 @@
+:root {
+  color-scheme: light;
+  
+  /* 정제된 실용적 컬러 팔레트 */
+  --bg: #f8fafc;
+  --panel: #ffffff;
+  --ink: #0f172a;
+  --muted: #475569;
+  --line: #e2e8f0;
+  --line-focus: #94a3b8;
+  
+  /* 브랜드 악센트 (차분하고 정돈된 딥 teal) */
+  --accent: #0f766e;
+  --accent-hover: #115e59;
+  --accent-ink: #ffffff;
+  --soft-bg: #f1f5f9;
+  
+  /* 상태 표시용 의미론적 컬러 */
+  --good-bg: #f0fdf4;
+  --good-border: #bbf7d0;
+  --good-text: #166534;
+  
+  --warn-bg: #fffbeb;
+  --warn-border: #fef08a;
+  --warn-text: #854d0e;
+  
+  --bad-bg: #fef2f2;
+  --bad-border: #fecaca;
+  --bad-text: #991b1b;
+  
+  --status-info-bg: #ecfeff;
+  --status-info-border: #cffafe;
+  --status-info-text: #155e75;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+/* 포커스 링 접근성 강화 */
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* 메인 레이아웃 구성 */
+.app-shell {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 24px;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 24px;
+  min-height: 100vh;
+}
+
+.tool-panel,
+.results-panel {
+  background-color: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* 왼쪽 컨트롤 패널 (스티키 스크롤 보장) */
+.tool-panel {
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+  position: sticky;
+  top: 24px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+}
+
+/* 오른쪽 결과 패널 */
+.results-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+  min-width: 0;
+}
+
+/* 타이틀 및 헤더 영역 */
+.brand-row h1 {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  margin: 0 0 6px 0;
+}
+
+.subhead {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* 폼 요소 공통 */
+.field-label,
+.control-grid span,
+.mode-field legend {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  display: block;
+}
+
+textarea,
+input[type="number"] {
+  width: 100%;
+  color: var(--ink);
+  background-color: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+textarea:focus,
+input[type="number"]:focus {
+  outline: none;
+  border-color: var(--line-focus);
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.08);
+}
+
+textarea {
+  min-height: 180px;
+  padding: 12px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.form-note {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+  margin: -12px 0 0;
+}
+
+.control-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.control-grid label {
+  display: flex;
+  flex-direction: column;
+}
+
+input[type="number"] {
+  height: 42px;
+  padding: 0 12px;
+}
+
+/* 라디오 버튼 필드셋 그룹 */
+.mode-field {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin: 0;
+  padding: 16px;
+  background-color: var(--soft-bg);
+}
+
+.mode-field legend {
+  padding: 0 4px;
+  margin-bottom: 8px;
+}
+
+.mode-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mode-field label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.mode-field input[type="radio"] {
+  margin: 0;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+}
+
+/* 하단 버튼 액션 그리드 정렬 수정 (글자 잘림 완전 방지) */
+.action-row {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(3, 1fr);
+  gap: 8px;
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding: 0 12px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+#generateBtn {
+  background-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+#generateBtn:hover {
+  background-color: var(--accent-hover);
+}
+
+.secondary {
+  background-color: #ffffff;
+  border-color: var(--line);
+  color: var(--muted);
+}
+
+.secondary:hover {
+  background-color: var(--soft-bg);
+  color: var(--ink);
+  border-color: var(--line-focus);
+}
+
+#sampleBtn {
+  background-color: var(--soft-bg);
+  color: var(--accent);
+  font-size: 12px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 6px;
+}
+
+#sampleBtn:hover {
+  background-color: var(--line);
+}
+
+/* 인포메이션 상태 박스 */
+.status-box {
+  background-color: var(--status-info-bg);
+  border: 1px solid var(--status-info-border);
+  border-radius: 8px;
+  color: var(--status-info-text);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+  padding: 12px;
+}
+
+/* 결과창 헤더 레이아웃 */
+.results-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 16px;
+}
+
+.results-head h2 {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  margin: 0 0 4px 0;
+}
+
+.quality-text {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0;
+}
+
+/* 품질 인디케이터 배지 디자인 고도화 */
+.quality-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  border: 1px solid var(--line);
+}
+
+.quality-badge.good { background-color: var(--good-bg); border-color: var(--good-border); color: var(--good-text); }
+.quality-badge.warn { background-color: var(--warn-bg); border-color: var(--warn-border); color: var(--warn-text); }
+.quality-badge.bad { background-color: var(--bad-bg); border-color: var(--bad-border); color: var(--bad-text); }
+
+/* 상단 핵심 메트릭스 그리드 */
+.summary-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.metric {
+  background-color: var(--soft-bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+}
+
+.metric strong {
+  display: block;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.metric span {
+  color: var(--muted);
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* 깔끔하게 정돈된 탭 스타일 */
+.tabs {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid var(--line);
+  padding-top: 8px;
+}
+
+.tab {
+  height: 38px;
+  padding: 0 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom: 0;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  margin-bottom: -1px;
+}
+
+.tab:hover {
+  background-color: var(--soft-bg);
+  color: var(--ink);
+}
+
+.tab.is-active {
+  background-color: var(--panel);
+  border-color: var(--line) var(--line) transparent var(--line);
+  color: var(--accent);
+  box-shadow: 0 -2px 0 0 var(--accent) inset;
+}
+
+/* 라운드 경기 카드 디자인 */
+.round-card {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 20px;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.round-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  background-color: var(--soft-bg);
+  border-bottom: 1px solid var(--line);
+  padding: 12px 16px;
+}
+
+.round-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.bye-line {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* 실제 경기 진행용 고대비 테이블 스케일링 */
+.games-table,
+.stats-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.games-table th,
+.stats-table th {
+  background-color: #ffffff;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.games-table td,
+.stats-table td {
+  padding: 14px 16px;
+  font-size: 14px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+.games-table tr:last-child td,
+.stats-table tr:last-child td {
+  border-bottom: 0;
+}
+
+/* 실전 시인성을 극대화한 팀명 및 대진 표시 */
+.games-table td:nth-child(1) {
+  font-weight: 600;
+  color: var(--muted);
+  width: 15%;
+}
+
+.games-table td:nth-child(2),
+.games-table td:nth-child(3) {
+  width: 42.5%;
+}
+
+.team {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  background-color: #f8fafc;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+/* 대조 피드백 표시자 */
+.flag-bad { color: var(--bad-text); font-weight: 700; background-color: var(--bad-bg); padding: 2px 6px; border-radius: 4px; }
+.flag-ok { color: var(--good-text); font-weight: 700; background-color: var(--good-bg); padding: 2px 6px; border-radius: 4px; }
+
+.empty-state {
+  border: 2px dashed var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  padding: 36px;
+  text-align: center;
+  font-size: 14px;
+  margin: 16px 0;
+}
+
+/* 960px 이하 해상도: 상하 2단 배치 분할 */
+@media (max-width: 960px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .tool-panel {
+    position: static;
+    max-height: none;
+  }
+
+  .summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 560px 이하 해상도: 초소형 화면 최적화 */
+@media (max-width: 560px) {
+  .app-shell {
+    padding: 8px;
+  }
+  
+  .tool-panel,
+  .results-panel {
+    padding: 16px;
+    border-radius: 8px;
+  }
+
+  .action-row {
+    grid-template-columns: 1fr;
+  }
+
+  .results-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .games-table td {
+    padding: 10px;
+  }
+  
+  .team {
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+}
+
+/* 완벽한 페이퍼 출력을 위한 고해상도 인쇄 전용 CSS */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 15mm;
+  }
+
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    font-size: 12pt;
+  }
+
+  .tool-panel,
+  .results-head,
+  .tabs,
+  .status-box,
+  button,
+  .quality-badge {
+    display: none !important;
+  }
+
+  .app-shell {
+    display: block !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .results-panel {
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+
+  .summary-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 10px !important;
+    margin-bottom: 30px !important;
+    page-break-inside: avoid;
+  }
+
+  .metric {
+    background-color: #ffffff !important;
+    border: 1px solid #000000 !important;
+    border-radius: 4px !important;
+    padding: 8px !important;
+  }
+  
+  .metric strong {
+    font-size: 16pt !important;
+  }
+
+  .round-card {
+    border: 1px solid #000000 !important;
+    border-radius: 4px !important;
+    margin-bottom: 25px !important;
+    page-break-inside: avoid; /* 라운드 카드가 페이지 중간에서 잘리는 문제 방지 */
+    background-color: #ffffff !important;
+  }
+
+  .round-head {
+    background-color: #f1f5f9 !important;
+    border-bottom: 1px solid #000000 !important;
+    padding: 8px 12px !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .round-title {
+    font-size: 13pt !important;
+    font-weight: bold !important;
+  }
+
+  .games-table th {
+    border-bottom: 1px solid #000000 !important;
+    padding: 6px 10px !important;
+  }
+
+  .games-table td {
+    padding: 10px 12px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    font-size: 11pt !important;
+  }
+
+  .team {
+    background-color: #ffffff !important;
+    border: 0 !important;
+    padding: 0 !important;
+    font-size: 12pt !important;
+  }
+}

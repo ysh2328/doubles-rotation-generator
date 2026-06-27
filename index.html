@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Doubles Partner Rotation Generator</title>
+    <meta name="description" content="Create printable doubles partner rotation schedules with fewer repeated partners and opponents.">
+    <meta name="google-site-verification" content="qkm8SK4lOb7tKxJYVBxHgySkP46Pr_JZ34ETDWGff5A">
+    <link rel="canonical" href="https://doubles-rotation-generator.pages.dev/">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="tool-panel" aria-label="Schedule controls">
+        <div class="brand-row">
+          <div>
+            <h1>Doubles Partner Rotation Generator</h1>
+            <p class="subhead">Balanced doubles schedules for pickleball, badminton, table tennis, and club nights.</p>
+          </div>
+          <button class="icon-button" id="sampleBtn" type="button" title="Load sample names" aria-label="Load sample names">Sample</button>
+        </div>
+
+        <label class="field-label" for="playersInput">Player names</label>
+        <textarea id="playersInput" spellcheck="false">Alex
+Blair
+Casey
+Drew
+Emery
+Finley
+Gray
+Harper</textarea>
+        <p class="form-note">Blank lines and duplicate names are ignored. If the player count does not fill every court, byes rotate automatically.</p>
+
+        <div class="control-grid">
+          <label>
+            <span>Rounds</span>
+            <input id="roundsInput" type="number" min="1" max="30" value="5">
+          </label>
+          <label>
+            <span>Courts</span>
+            <input id="courtsInput" type="number" min="1" max="12" value="2">
+          </label>
+        </div>
+
+        <fieldset class="mode-field">
+          <legend>Optimize for</legend>
+          <label><input type="radio" name="priority" value="partners" checked> New partners</label>
+          <label><input type="radio" name="priority" value="opponents"> New opponents</label>
+          <label><input type="radio" name="priority" value="balanced"> Even mix</label>
+        </fieldset>
+
+        <div class="action-row">
+          <button id="generateBtn" type="button">Create</button>
+          <button id="copyBtn" type="button" class="secondary" title="Copy the schedule as plain text" aria-label="Copy the schedule as plain text">Copy</button>
+          <button id="csvBtn" type="button" class="secondary" title="Download the schedule as a CSV file">CSV</button>
+          <button id="printBtn" type="button" class="secondary" title="Print the schedule">Print</button>
+        </div>
+
+        <div class="status-box" id="statusBox" role="status">Add players, choose rounds and courts, then create a schedule.</div>
+      </section>
+
+      <section class="results-panel" aria-label="Generated schedule">
+        <div class="results-head">
+          <div>
+            <h2>Schedule</h2>
+            <p id="qualityText" class="quality-text">No schedule yet.</p>
+          </div>
+          <span id="qualityBadge" class="quality-badge">Ready</span>
+        </div>
+        <div class="summary-grid" id="summaryGrid"></div>
+        <div class="tabs" role="tablist" aria-label="Views">
+          <button class="tab is-active" id="scheduleTab" type="button">Schedule</button>
+          <button class="tab" id="statsTab" type="button">Stats</button>
+        </div>
+        <div id="scheduleView"></div>
+        <div id="statsView" hidden></div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

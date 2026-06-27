@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://doubles-rotation-generator.pages.dev/sitemap.xml
